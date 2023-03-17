@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+
+.blank{
+  color: red;
+}
+
+.container{
+  color: blue;
+  font-weight: bolder;
+  
+}
