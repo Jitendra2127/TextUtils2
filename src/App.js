@@ -1,36 +1,113 @@
-// import logo from './logo.svg';
+
+import React, { useState } from 'react';
 import './App.css';
-// let name="jitu";
+import About from './components/About';
+import Navbar from './components/Navbar';
+import TextForm from './components/TextForm';
+import Alert from './components/Alert';
+
+import {
+BrowserRouter as Router,
+  // Switch,
+  Routes,
+  Route
+} from "react-router-dom";
+
+
+
 
 function App() {
+
+  
+  const [mode, setmode] = useState("dark");
+  const [color, setcolor] = useState("white");
+  const [alert, setalert] = useState(null);
+  const [titleColor, settitleColor] = useState(null);
+
+
+  const showAlert = (message, type) => {
+    setalert({
+      msg: message,
+      type: type
+    })
+  }
+
+
+  setTimeout(() => {
+    setalert(null)
+  }, 1000)
+
+  // const removeBodyClasses=()=>{
+  //   document.body.classList.remove('bg-light');
+  //   document.body.classList.remove('bg-dark');
+  //   document.body.classList.remove('bg-warning');
+  //   document.body.classList.remove('bg-danger');
+  //   document.body.classList.remove('bg-success');
+  // }
+
+  const togle = (cls) => {
+    // console.log(cls);
+    // removeBodyClasses();
+    // document.body.classList.add('bg-'+cls);
+
+
+
+    if (mode === 'light') {
+      setmode('dark');
+      setcolor('white');
+      showAlert("Dark mode has been enable", 'success');
+      settitleColor("danger");
+      document.title = "Dark Mode" 
+
+      // document.body.style.backgroundColor="black";
+    }
+    else {
+      setmode('light');
+      setcolor('dark');
+      showAlert("Light mode has been enable", 'success');
+      settitleColor("success");
+      document.title = "Light Mode"
+      // setInterval(() => {
+      //   document.title = "Jitu"
+      // }, 2000)
+      // setInterval(() => {
+      //   document.title = "Jitendra";
+
+      // }, 3000)
+
+
+      // document.body.style.backgroundColor="pink";
+    }
+  }
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
-  <div className="container-fluid">
-    <a className="navbar-brand" href="/">Textutils</a>
-    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span className="navbar-toggler-icon"></span>
-    </button>
-    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-        <li className="nav-item">
-          <a className="nav-link active" aria-current="page" href="/">Home</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="/">About</a>
-        </li>
-        
-      </ul>
-      <form className="d-flex" role="search">
-        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button className="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-</nav>
-    </>
-    // <div className="blank">Lovely</div>
+    <Router>
+      {/* It is used when you pass no any props. */}
+      {/* <Navbar/> */}
 
+      
+
+        <Navbar title="Textutils" title_color={titleColor} About="AboutTextUtils" mode={mode} toggle={togle} col={color} />
+        <Alert alert={alert} />
+        <div className="container my-3">
+
+        
+        
+          <Routes>          
+          
+            <Route exact path="/Home" element={<TextForm heading=" Try TextUtils- Word counter , Character Counter , Convert UpperText to LowerText" showAlert={showAlert} title_color={titleColor} />}></Route>
+            <Route  exact path='/About' element={<About mode={mode}  />}></Route>
+          
+          
+          </Routes>
+
+          {/* <TextForm heading="Enter the text to analyze below" showAlert={showAlert} title_color={titleColor} /> */}
+
+          {/* <About /> */}
+
+        </div>
+        </Router> 
+    </>
   );
 }
 
